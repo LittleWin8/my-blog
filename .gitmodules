@@ -1,0 +1,3 @@
+[submodule "themes/pixel-blog-hugo"]
+	path = themes/pixel-blog-hugo
+	url = https://github.com/LittleWin8/pixel-blog-hugo

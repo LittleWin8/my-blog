@@ -1,0 +1,162 @@
+baseURL = "https://blog.littlewin.top/"
+title = "Little Win's Blog"
+theme = "pixel-blog-hugo"
+locale = "zh-cn"
+defaultContentLanguage = "zh"
+enableRobotsTXT = true
+hasCJKLanguage = true    # 中文按「字」统计，阅读时长/摘要才准确
+summaryLength = 80
+enableGitInfo = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[pagination]
+  pagerSize = 8
+
+[taxonomies]
+  tag = "tags"
+
+[markup]
+  [markup.goldmark.parser]
+    wrapStandAloneImageWithinParagraph = false   # 图片渲染钩子输出 <figure>，避免被包进 <p>
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    noClasses = false
+  [markup.tableofcontents]
+    startLevel = 2
+    endLevel = 4
+
+[params]
+  author = "小稳"
+  description = "Little Win's Blog"
+  # copyright = "© 2024-2026 小稳"   # 自定义页脚版权（不写则自动「© 年份 作者」）
+  icp = "辽ICP备xxxxxxx号"         # 页脚备案号（国内站点；不写则不显示）
+  # keywords = ["Hugo", "博客"]      # <meta name="keywords">
+  scanlines = true          # 示例站开启 CRT 扫描线
+
+  # 品牌 / 顶部栏（logo/favicon 放你站点的 assets/ 下）
+  [params.identity]
+    name = "小稳"
+    logo = "images/logo.png"
+    favicon = "images/logo.png"
+
+  # 首页主视觉文案（intro 支持 Markdown，可多段）
+  [params.hero]
+    eyebrow = "在希望的田野上，总有成片的迷茫"
+    title = "小稳"
+    tagline = "🧅🍺🌞 Long may the sunshine！！！"
+    intro = """
+你好呀，我是小稳。
+
+在罗德兰传过火，在苇名打过铁，在交界地成过王
+
+在黑风山当过天命人，在克拉特撒点小谎
+
+一路受苦，赤石大王 
+"""
+
+  # 首页「个人作品」入口：按 weight 取前 count 个项目
+  # （内容在 content/projects/ 下；仅列出 online: true 的项目，未上线的显示为静态项）
+  [params.works]
+    eyebrow = "FEATURED WORK"
+    title = "个人作品"
+    count = 3
+
+  # 首页「技术栈」：设 enable = false 或删除整块即隐藏。
+  # groups[].icon 内置图标名（未命中的值则原样显示为文字）：
+  #   frontend  backend  database  ai  devops  cloud  tools  mobile
+  #   design    language security  test  box（通用/默认）
+#   [params.techstack]
+#     enable = false
+#     title = "技术栈"
+#     subtitle = "示例分组，按需改成你自己的"
+#     [[params.techstack.groups]]
+#       title = "编程语言"
+#       icon = "language"
+#       description = "平时主要使用的语言。"
+#       items = ["Java", "TypeScript", "Go"]
+#     [[params.techstack.groups]]
+#       title = "后端与数据库"
+#       icon = "backend"
+#       description = "服务端与数据存储。"
+#       items = ["Spring Boot", "MySQL", "Redis"]
+#     [[params.techstack.groups]]
+#       title = "前端与工具"
+#       icon = "frontend"
+#       description = "界面开发与构建工具。"
+#       items = ["Vue.js", "Vite", "Hugo"]
+#     [[params.techstack.groups]]
+#       title = "运维与效率"
+#       icon = "devops"
+#       description = "部署与日常提效。"
+#       items = ["Linux", "Nginx", "Docker"]
+
+  # 资源
+  # ogImage：站点默认分享图（1200×630，放站点 static/ 下，填 / 开头路径）
+  # pixelFont：像素字体 CSS（可换成自托管，见 README）
+  [params.assets]
+    ogImage = "/images/og-default.png"
+
+  # 文章分享图：front matter 写 cover: "images/xxx.png"（放页面包或站点 assets/），
+  # 主题自动裁成 1200×630；页面 front matter 的 images（数组，取第一张）可作回退。
+
+  # 社交图标：填了值的项才显示（首页 Hero 与页脚各一行），全部留空则不显示。
+  [params.social]
+    # 只填你想展示的，多余的删掉或注释掉即可
+    github = "https://github.com/LittleWin8"        # GitHub
+    email = "1944252183@qq.com"                     # 邮箱（自动加 mailto:）
+    steam = "https://steamcommunity.com/profiles/76561199055633567"  # Steam
+    # bilibili = "https://space.bilibili.com/1000000" # 哔哩哔哩
+    # x = "https://x.com/LittleWin8"                  # X
+    # telegram = "https://t.me/你的用户名"            # Telegram
+    # wechat = "https://你的微信二维码图链接"          # 微信（通常放二维码图片链接）
+    # weibo = "https://weibo.com/你的用户名"          # 微博
+    # zhihu = "https://www.zhihu.com/people/你的ID"   # 知乎
+    # juejin = "https://juejin.cn/user/你的ID"        # 掘金
+    # youtube = "https://youtube.com/@你的频道"       # YouTube
+    # linkedin = "https://linkedin.com/in/你的ID"     # LinkedIn
+    # mastodon = "https://你的实例/@你的用户名"        # Mastodon
+    # discord = "https://discord.gg/你的邀请码"       # Discord
+    # instagram = "https://instagram.com/你的用户名"  # Instagram
+
+  # 友链页：页面文件 content/links.md（layout: links）
+  # items 字段：name/url 必填，description/avatar 可选（avatar 不填显示通用图标）
+  [params.links]
+    title = "友情链接"
+    description = "一些有趣的朋友和他们的站点，欢迎交换。"
+    items = [
+      { name = "Hugo", url = "https://gohugo.io/", description = "静态站点生成器" },
+      { name = "GitHub", url = "https://github.com/", description = "代码托管平台" },
+    ]
+
+# 示例站导航（覆盖主题默认，增补 项目 / 友链 / 关于）
+[[params.nav]]
+  name = "首页"
+  url = "/"
+  icon = "home"
+[[params.nav]]
+  name = "博客"
+  url = "/posts/"
+  icon = "posts"
+[[params.nav]]
+  name = "标签"
+  url = "/tags/"
+  icon = "tags"
+[[params.nav]]
+  name = "归档"
+  url = "/archives/"
+  icon = "archives"
+[[params.nav]]
+  name = "项目"
+  url = "/projects/"
+  icon = "projects"
+[[params.nav]]
+  name = "友链"
+  url = "/links/"
+  icon = "links"
+[[params.nav]]
+  name = "关于"
+  url = "/about/"
+  icon = "about"
