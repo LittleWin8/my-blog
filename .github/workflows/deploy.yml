@@ -17,10 +17,10 @@ jobs:
           submodules: recursive
 
       - name: 安装 Hugo
-        run: |
-          curl -fsSL -o /tmp/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.154.5/hugo_extended_0.154.5_linux-amd64.deb
-          sudo dpkg -i /tmp/hugo.deb
-          hugo version
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.166.0'   # 和你本地一致
+          extended: true
 
       - name: 构建
         run: hugo --minify
