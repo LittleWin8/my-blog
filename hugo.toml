@@ -25,14 +25,14 @@ enableGitInfo = true
   [markup.highlight]
     noClasses = false
   [markup.tableofcontents]
-    startLevel = 2
+    startLevel = 1
     endLevel = 4
 
 [params]
   author = "小稳"
   description = "Little Win's Blog"
   # copyright = "© 2024-2026 小稳"   # 自定义页脚版权（不写则自动「© 年份 作者」）
-  icp = "辽ICP备xxxxxxx号"         # 页脚备案号（国内站点；不写则不显示）
+  # icp = "辽ICP备xxxxxxx号"         # 页脚备案号（国内站点；不写则不显示）
   # keywords = ["Hugo", "博客"]      # <meta name="keywords">
   scanlines = true          # 示例站开启 CRT 扫描线
 
@@ -68,30 +68,29 @@ enableGitInfo = true
   # groups[].icon 内置图标名（未命中的值则原样显示为文字）：
   #   frontend  backend  database  ai  devops  cloud  tools  mobile
   #   design    language security  test  box（通用/默认）
-#   [params.techstack]
-#     enable = false
-#     title = "技术栈"
-#     subtitle = "示例分组，按需改成你自己的"
-#     [[params.techstack.groups]]
-#       title = "编程语言"
-#       icon = "language"
-#       description = "平时主要使用的语言。"
-#       items = ["Java", "TypeScript", "Go"]
-#     [[params.techstack.groups]]
-#       title = "后端与数据库"
-#       icon = "backend"
-#       description = "服务端与数据存储。"
-#       items = ["Spring Boot", "MySQL", "Redis"]
-#     [[params.techstack.groups]]
-#       title = "前端与工具"
-#       icon = "frontend"
-#       description = "界面开发与构建工具。"
-#       items = ["Vue.js", "Vite", "Hugo"]
-#     [[params.techstack.groups]]
-#       title = "运维与效率"
-#       icon = "devops"
-#       description = "部署与日常提效。"
-#       items = ["Linux", "Nginx", "Docker"]
+   [params.techstack]
+     enable = true
+     title = "技术栈"
+    [[params.techstack.groups]]
+      title = "编程语言"
+      icon = "language"
+      description = "平时主要使用的语言。"
+       items = ["Java", "Python"]
+    [[params.techstack.groups]]
+      title = "后端与数据库"
+      icon = "backend"
+      description = "服务端与数据存储。"
+      items = ["Spring Boot", "PostgreSql", "MySQL", "Redis"]
+    [[params.techstack.groups]]
+      title = "效率工具"
+      icon = "tools"
+      description = "构建工具、版本控制"
+      items = ["Git", "Visual Studio Code", "IntelliJ IDEA", "Maven"]
+    [[params.techstack.groups]]
+      title = "AI 编程工具"
+      icon = "ai"
+      description = "Vibe Coding"
+      items = ["OpenCode", "Cursor", "Codex"]
 
   # 资源
   # ogImage：站点默认分享图（1200×630，放站点 static/ 下，填 / 开头路径）
