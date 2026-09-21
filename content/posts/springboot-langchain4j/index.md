@@ -2,7 +2,7 @@
 title = "Spring Boot 接入大模型 LangChain4j 实战"
 date = 2026-05-12
 draft = false
-tags = ["Java", "AI", "毕业设计"]
+tags = ["Java", "AI", "毕业设计", "LangChain4j"]
 +++
 > 在毕设项目"智能笔记系统"中，我需要给笔记加上 AI 摘要、写作助手、智能标签推荐、自然语言数据分析四个功能。这篇文章记录我从选型到实现的全过程，重点讲怎么在 Spring Boot 项目中接入大模型 API。
 

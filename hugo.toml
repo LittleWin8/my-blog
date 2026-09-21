@@ -4,6 +4,7 @@ theme = "pixel-blog-hugo"
 locale = "zh-cn"
 defaultContentLanguage = "zh"
 enableRobotsTXT = true
+mainSections = ["posts"]
 hasCJKLanguage = true    # 中文按「字」统计，阅读时长/摘要才准确
 summaryLength = 80
 enableGitInfo = true
@@ -140,6 +141,10 @@ enableGitInfo = true
   url = "/posts/"
   icon = "posts"
 [[params.nav]]
+  name = "项目"
+  url = "/projects/"
+  icon = "projects"
+[[params.nav]]
   name = "标签"
   url = "/tags/"
   icon = "tags"
@@ -147,10 +152,6 @@ enableGitInfo = true
   name = "归档"
   url = "/archives/"
   icon = "archives"
-[[params.nav]]
-  name = "项目"
-  url = "/projects/"
-  icon = "projects"
 [[params.nav]]
   name = "友链"
   url = "/links/"
