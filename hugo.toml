@@ -33,7 +33,7 @@ enableGitInfo = true
   author = "小稳"
   description = "Little Win's Blog"
   # copyright = "© 2024-2026 小稳"   # 自定义页脚版权（不写则自动「© 年份 作者」）
-  # icp = "辽ICP备xxxxxxx号"         # 页脚备案号（国内站点；不写则不显示）
+  icp = "辽ICP备2026022228号-1"      # 页脚备案号
   # keywords = ["Hugo", "博客"]      # <meta name="keywords">
   scanlines = true          # 示例站开启 CRT 扫描线
 
