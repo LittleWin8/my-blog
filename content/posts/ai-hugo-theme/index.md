@@ -95,4 +95,4 @@ Hexo 我之前用过，所以这次没选它（没什么别的理由，就是没
 主题完全开源，采用 MIT 协议，拿去用就行：
 
 - 仓库：[pixel-blog-hugo](https://github.com/LittleWin8/pixel-blog-hugo)
-- 觉得还行就点个 Star；有问题、有想法，欢迎提 Issue 也行
+- 觉得还行就点个 Star；有问题、有想法，欢迎提 Issue
