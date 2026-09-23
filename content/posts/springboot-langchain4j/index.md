@@ -6,7 +6,7 @@ tags = ["Java", "AI", "毕业设计", "LangChain4j"]
 +++
 > 在毕设项目"智能笔记系统"中，我需要给笔记加上 AI 摘要、写作助手、智能标签推荐、自然语言数据分析四个功能。这篇文章记录我从选型到实现的全过程，重点讲怎么在 Spring Boot 项目中接入大模型 API。
 
-# 一、常见接入方式对比
+## 一、常见接入方式对比
 
 在 Java/Spring Boot 项目中接入大模型（比如 DeepSeek、ChatGPT、通义千问），常见的有四种方式：
 
@@ -25,7 +25,7 @@ tags = ["Java", "AI", "毕业设计", "LangChain4j"]
 2. **LangChain4j 的 **`langchain4j-open-ai`** 模块天然支持**——直接传入 DeepSeek 的地址就能用
 3. LangChain4j 文档多、示例丰富，上手快
 
-# 二、第一步：添加 Maven 依赖
+## 二、第一步：添加 Maven 依赖
 
 在 `note` 模块的 `pom.xml` 中添加两个依赖：
 
@@ -48,9 +48,9 @@ tags = ["Java", "AI", "毕业设计", "LangChain4j"]
 
 为什么不需要额外加 DeepSeek 的 SDK？因为 DeepSeek 的 API 完全兼容 OpenAI 的请求/响应格式，`langchain4j-open-ai` 模块只需要换个 `baseUrl` 就能对接。
 
-# 三、配置 API 连接
+## 三、配置 API 连接
 
-## 3.1 配置文件
+### 3.1 配置文件
 
 在 `application-dev.yml` 中配置 DeepSeek 的连接信息：
 
@@ -69,7 +69,7 @@ ai:
 - `model-name`：模型名称，DeepSeek 用 `deepseek-chat`
 - `max-tokens`：AI 回复的最大 token 数
 
-## 3.2 创建模型实例
+### 3.2 创建模型实例
 
 在 Service 中通过 `@PostConstruct` 创建模型实例：
 
@@ -123,7 +123,7 @@ public void init() {
 > 
 > 然后各 Service 通过构造器注入 `ChatLanguageModel chatModel` 即可（和项目中 `@RequiredArgsConstructor` 的风格一致）。毕设赶进度没来得及重构，但这是生产项目应该做的。
 
-# 四、基础调用
+## 四、基础调用
 
 有了 `ChatLanguageModel` 实例，调用大模型的核心代码就三行：
 
@@ -148,11 +148,11 @@ int outputTokens = usage.outputTokenCount();  // 输出 token 数
 
 就这么简单。不需要手动拼 JSON、不需要处理 HTTP 响应解析，LangChain4j 全部帮你封装好了。
 
-# 五、项目中的四个 AI 功能
+## 五、项目中的四个 AI 功能
 
 接下来讲在毕设项目中落地的四个 AI 功能，每个都是对基础调用的业务化封装。
 
-## 5.1 AI 摘要生成
+### 5.1 AI 摘要生成
 
 用户写完一篇笔记，点一下"生成摘要"，AI 返回 100 字以内的摘要和 3-5 个关键词。
 
@@ -198,7 +198,7 @@ public Map<String, String> generateSummary(Long noteId, Long userId) {
 - **结果解析用换行符分割**：prompt 里约定了"摘要和关键词分行返回"，回来直接 `split("\n")`
 - **配额检查在前**：先查用户本月 token 用量有没有超限，超了直接拒绝
 
-## 5.2 AI 写作助手
+### 5.2 AI 写作助手
 
 支持三种操作：扩写、润色、总结。本质是同一个接口，区别只在 prompt 不同：
 
@@ -238,7 +238,7 @@ public String assist(Long userId, String content, String action) {
 
 这就是 **策略模式** 的应用——`switch (action)` 选择不同的 prompt 模板，底层调用完全一样。以后想加新操作（比如"翻译成英文"），只需要加一个 `case` 和对应的 prompt。
 
-## 5.3 AI 标签推荐
+### 5.3 AI 标签推荐
 
 这个功能最值得讲——**如何防止 AI 幻觉**。
 
@@ -285,7 +285,7 @@ public List<String> recommendTags(Long userId, String content) {
 2. **要求只返回标签名**——"不要返回其他内容"，减少 AI 发挥空间
 3. **后端二次校验**——第 4 步用 `myTagSet.contains(t)` 过滤，AI 返回的标签如果不在用户已有标签列表中，直接丢弃
 
-## 5.4 自然语言数据分析
+### 5.4 自然语言数据分析
 
 这是最复杂的功能——管理员输入自然语言问题（如"上周新增了多少篇笔记"），AI 自动生成 SQL 并返回分析结果。
 
@@ -348,7 +348,7 @@ jdbcTemplate.execute(stmt -> stmt.executeQuery(sql));  // sql 是 AI 刚生成�
 
 简单说：**常规 CRUD 用 MyBatis-Plus，AI 动态 SQL 用 JdbcTemplate**。
 
-## 5.5 SQL 安全防护
+### 5.5 SQL 安全防护
 
 让 AI 生成 SQL 然后直接执行，安全风险极高。`sanitizeSql` 方法是整个功能的安全底线：
 
@@ -402,18 +402,18 @@ String sanitizeSql(String sql) {
 - 敏感字段黑名单（密码、手机号等）
 - 自动加 `LIMIT 100` 防止一次查太多
 
-# 六、Token 用量与配额管理
+## 六、Token 用量与配额管理
 
 大模型 API 是按 token 计费的，不做用量控制可能被刷爆。项目中实现了一套完整的配额体系。
 
-## 6.1 数据模型
+### 6.1 数据模型
 
 两张表：
 
 - `ai_usage_log`：每次调用的 token 用量记录（谁、什么时候、用了多少 token、成功还是失败）
 - `ai_user_quota`：每个用户的月度配额（token 上限、请求次数上限、已用量）
 
-## 6.2 配额检查逻辑
+### 6.2 配额检查逻辑
 
 ```java
 // AiQuotaServiceImpl.java
@@ -456,7 +456,7 @@ public void checkQuota(Long userId) {
 - **按月重置**——比较 `quotaResetDate` 的月份，跨月自动清零。注意这里只比较了月份没比较年份，跨年场景下（12月→1月）恰好也不会误判，但如果是隔年同月可能会有问题，生产环境建议改用 `YearMonth` 比较
 - **token 用量从日志表实时聚合**——不依赖配额表的计数器（可能被手动调整），而是 `SELECT SUM(total_tokens) FROM ai_usage_log WHERE user_id = ? AND create_time >= 本月`，更准确
 
-## 6.3 调用后记录
+### 6.3 调用后记录
 
 每次 AI 调用完成后，无论成功还是失败，都要记录日志：
 
@@ -491,7 +491,7 @@ PUT /api/admin/ai/quota/{userId}  → 手动调整配额
 
 ```
 
-# 七、踩坑总结
+## 七、踩坑总结
 
 回顾整个 AI 集成过程，几个值得记录的坑：
 
@@ -511,7 +511,7 @@ PUT /api/admin/ai/quota/{userId}  → 手动调整配额
 
 让 AI 直接生成 SQL 执行，等于把数据库的钥匙交给了一个"不可控"的角色。`sanitizeSql` 的五层过滤是必要的——即使 prompt 说了"只返回 SELECT"，AI 也可能生成 `INSERT` 或 `DROP`。**不要过度信任 AI 生成的代码，必须在执行前做安全检查。**
 
-# 八、总结
+## 八、总结
 
 用 LangChain4j 接入 DeepSeek 大模型，核心就三步：
 

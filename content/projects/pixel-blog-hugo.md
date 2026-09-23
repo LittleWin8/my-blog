@@ -8,7 +8,7 @@ featured = true
 link = "https://pixel-blog-hugo.pages.dev/"
 source = "https://github.com/LittleWin8/pixel-blog-hugo"
 icon = "🕹️"
-tags = ["Hugo", "开源", "像素风"]
+tags = ["Hugo", "主题"]
 summary = "开源 Hugo 博客主题：像素复古（Sweetie 16 色板）风格，明暗双主题、项目展示、站内搜索、i18n、SEO 齐备。灵感来自 1000ye.top。"
 +++
 

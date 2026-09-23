@@ -6,7 +6,7 @@ tags = ["算法", "Java", "毕业设计"]
 +++
 > 在毕设项目的开发过程中，我遇到了一个反复出现的场景：菜单需要树形结构、分类需要树形结构、以后如果有组织架构大概率也需要。每次写一遍递归构建逻辑显然不优雅，于是我封装了一个通用的 `TreeUtils` 工具类。这篇文章记录我的设计思路和实现细节。
 
-# 一、为什么需要通用树构建
+## 一、为什么需要通用树构建
 
 在管理系统中，树形结构几乎无处不在：
 
@@ -18,7 +18,7 @@ tags = ["算法", "Java", "毕业设计"]
 
 如果每个场景都写一遍构建逻辑，代码会大量重复。核心思路是：**定义一个通用接口，让所有需要树形结构的实体实现它，工具类只依赖接口操作**。
 
-# 二、核心设计：TreeNode 接口
+## 二、核心设计：TreeNode 接口
 
 第一步是抽象出树节点的共性。我定义了一个泛型接口 `TreeNode<T, K>`：
 
@@ -88,7 +88,7 @@ public class SysCategory implements TreeNode<SysCategory, Long> {
 
 关键点：`children` 字段标记了 `@TableField(exist = false)`，它不会从数据库读取，而是在查询出扁平列表后由 `TreeUtils.build()` 动态填充。
 
-# 三、构建树：O(n) 的 Map 索引法
+## 三、构建树：O(n) 的 Map 索引法
 
 核心的 `build()` 方法是整个工具类的灵魂。先看一下调用方式：
 
@@ -104,7 +104,7 @@ List<MenuVO> menuTree = TreeUtils.build(menuVOList, 0L);
 
 `rootParentId` 参数（这里是 `0L`）代表根节点的父 ID——也就是数据库中顶级节点的 `parent_id` 字段值。
 
-## 3.1 核心思想：先建索引，再挂载
+### 3.1 核心思想：先建索引，再挂载
 
 传统做法是双重循环——对每个节点遍历整个列表找它的父节点，时间复杂度 O(n²)。这个算法的思路是 **先用 Map 建索引，再遍历一次挂载**，把复杂度降到 O(n)。
 
@@ -165,7 +165,7 @@ roots = [技术, 生活]
 | 传统双重循环 | O(n²) | 约 100 万次 |
 | Map 索引法 | O(n) | 约 1000 次 |
 
-## 3.2 代码实现
+### 3.2 代码实现
 
 对应到 `TreeUtils.build()` 的源码：
 
@@ -232,7 +232,7 @@ public static <T extends TreeNode<T, K>, K> List<T> build(
 - **ID 冲突策略** `(existing, replacement) -> existing`，保留第一个，避免意外覆盖
 - **null 元素过滤**，防止数据库查询返回 null 导致 NPE
 
-## 3.3 递归排序
+### 3.3 递归排序
 
 排序是独立于构建的，支持对整棵树的每一层排序：
 
@@ -252,7 +252,7 @@ private static <T extends TreeNode<T, K>, K> void sortTree(
 
 实际使用时传入 `Comparator.comparingInt(SysCategory::getSortOrder)`，就能实现每层分类按 `sort_order` 字段排序。
 
-# **四、项目中的实际调用**
+## **四、项目中的实际调用**
 
 项目中 `TreeUtils` 被 6 处业务代码调用，用到了两个方法：`build()` 和 `findAllChildIds()`。
 
@@ -289,7 +289,7 @@ List<SysCategory> tree = TreeUtils.build(activeList, 0L);
 return Result.success(tree);
 ```
 
-## 4.2 `findAllChildIds()` — 获取子树 ID 集合（2 处）
+### 4.2 `findAllChildIds()` — 获取子树 ID 集合（2 处）
 
 用户在小程序端选了"技术笔记"这个父分类，需要查出它和所有子分类下的笔记。两处调用写法一致：
 
@@ -313,7 +313,7 @@ return TreeUtils.findAllChildIds(allCategories, categoryId, true);
 
 一个工具类支撑了菜单、分类、笔记查询三个核心模块，体现了通用封装的价值。
 
-# 五、设计反思
+## 五、设计反思
 
 **做得好的地方**：
 
@@ -334,9 +334,9 @@ return TreeUtils.findAllChildIds(allCategories, categoryId, true);
 
 > 这个工具类的核心价值在于：**用一个接口约束 + 一个工具类，统一了所有树形结构的处理逻辑**。不需要为菜单写一套、为分类再写一套。这种"面向接口编程 + 泛型抽象"的思路，是我在毕设开发过程中最大的收获之一。
 
-# **附录：完整源码**
+### **附录：完整源码**
 
-## TreeNode.java
+### TreeNode.java
 
 ```java
 package com.littlewin.common.core;
@@ -381,7 +381,7 @@ public interface TreeNode<T, K> {
 }
 ```
 
-## TreeUtils.java
+### TreeUtils.java
 
 ```java
 package com.littlewin.common.utils;
